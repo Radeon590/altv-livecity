@@ -88,33 +88,19 @@ namespace LiveCity.Client.Resource.LiveCity
 				return;
 			}
 
+			//Get vehicle
 			IVehicle assignedVehicle = null;
 			if (ped.GetStreamSyncedMetaData("LiveCity:Vehicle", out uint assignedVehicleRemoteId))
 			{
-				//Get vehicle
 				assignedVehicle = Alt.GetAllVehicles().FirstOrDefault(v => v.RemoteId == assignedVehicleRemoteId);
 			}
-			else
+			if (assignedVehicle == null)
 			{
-				throw new Exception("Cant get assigned to ped vehicle");
-			}
-			//
-			try
-			{
-				Alt.LogInfo("handlePed try waitFor vehicle spawned");
-				bool a = assignedVehicle == null;
-				Alt.LogInfo($"{a}");
-				Alt.LogInfo("await");
-				await AltAsync.WaitFor(() => assignedVehicle.Spawned, 3000);
-				Alt.LogInfo("done handlePed try waitFor vehicle spawned");
-			}
-			catch
-			{
-				Alt.LogInfo("catch handlePed try waitFor vehicle spawned");
 				Alt.EmitServer(EventNames.LiveCity.s_clientRequestsDestroy, ped);
-				Alt.LogInfo("done catch handlePed try waitFor vehicle spawned");
 				return;
 			}
+			// wait for vehicle spawn
+			await AltAsync.WaitFor(() => assignedVehicle.Spawned, 3000);
 
 			// Maybe despawned while waiting
 			if (!ped.Spawned)
