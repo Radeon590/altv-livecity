@@ -2,8 +2,8 @@
   "profiles": {
     "LiveCity": {
       "commandName": "Executable",
-      "executablePath": "$(ALTV_SERVER_ROOT)\\altv-server.exe",
-      "workingDirectory": "$(ALTV_SERVER_ROOT)"
+      "executablePath": "C:\\Projects\\VavilonGames\\AltVServer\\altv-server.exe",
+      "workingDirectory": "C:\\Projects\\VavilonGames\\AltVServer"
     }
   }
 }

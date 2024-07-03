@@ -31,8 +31,8 @@
   </Target>
 
   <ItemGroup>
-    <PackageReference Include="AltV.Net.Client" Version="15.0.124-dev" />
-    <PackageReference Include="AltV.Net.Client.Async" Version="15.0.124-dev" />
+    <PackageReference Include="AltV.Net.Client" Version="16.1.0-dev.8" />
+    <PackageReference Include="AltV.Net.Client.Async" Version="16.1.0-dev.8" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
   </ItemGroup>
 

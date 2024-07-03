@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Numerics;
@@ -243,12 +244,13 @@ namespace LiveCity.Server.LiveCity
 			{
 				CarGenerator carGenerator = new()
 				{
-					Position = new Vector3(Convert.ToSingle(xElement.Element("Position")?.Element("X")?.Value),
-					Convert.ToSingle(xElement.Element("Position")?.Element("Y")?.Value), Convert.ToSingle(xElement.Element("Position")?.Element("Z")?.Value)),
+					Position = new Vector3(Convert.ToSingle(xElement.Element("Position")?.Element("X")?.Value, CultureInfo.InvariantCulture.NumberFormat),
+					Convert.ToSingle(xElement.Element("Position")?.Element("Y")?.Value, CultureInfo.InvariantCulture.NumberFormat),
+					Convert.ToSingle(xElement.Element("Position")?.Element("Z")?.Value, CultureInfo.InvariantCulture.NumberFormat)),
 					Model = xElement.Element("Model")?.Value,
 					PopGroup = xElement.Element("PopGroup")?.Value,
-					OrientX = Convert.ToSingle(xElement.Element("OrientX")?.Value),
-					OrientY = Convert.ToSingle(xElement.Element("OrientY")?.Value)
+					OrientX = Convert.ToSingle(xElement.Element("OrientX")?.Value, CultureInfo.InvariantCulture.NumberFormat),
+					OrientY = Convert.ToSingle(xElement.Element("OrientY")?.Value, CultureInfo.InvariantCulture.NumberFormat)
 				};
 
 				m_carGenerators.Add(carGenerator);
@@ -282,8 +284,11 @@ namespace LiveCity.Server.LiveCity
 
 		void ParseZones()
 		{
+			Alt.LogInfo("ParseZones");
 			Dictionary<string, Tuple<string, string>> zoneBindings = new();
+			Alt.LogInfo("zoneBindPath after");
 			string zoneBindPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "data", "LiveCity\\ZoneBind.ymt");
+			Alt.LogInfo("zoneBindPath before");
 			XElement items = XElement.Load(zoneBindPath);
 
 			Alt.Log("Successfully loaded dump file LiveCity\\ZoneBind.ymt.");
@@ -306,15 +311,15 @@ namespace LiveCity.Server.LiveCity
 				Zone zone = new();
 				string[] splitted = zoneString.Split(',');
 				zone.ZoneName = splitted[0].ToLower();
-
-				zone.Min = new Vector3(float.Parse(splitted[1]), float.Parse(splitted[2]), float.Parse(splitted[3]));
-				zone.Max = new Vector3(float.Parse(splitted[4]), float.Parse(splitted[5]), float.Parse(splitted[6]));
+				zone.Min = new Vector3(float.Parse(splitted[1], CultureInfo.InvariantCulture.NumberFormat), float.Parse(splitted[2], CultureInfo.InvariantCulture.NumberFormat), float.Parse(splitted[3], CultureInfo.InvariantCulture.NumberFormat));
+				zone.Max = new Vector3(float.Parse(splitted[4], CultureInfo.InvariantCulture.NumberFormat), float.Parse(splitted[5], CultureInfo.InvariantCulture.NumberFormat), float.Parse(splitted[6], CultureInfo.InvariantCulture.NumberFormat));
 				zone.AreaName = splitted[7].ToLower();
 				zone.SpName = zoneBindings[zone.ZoneName].Item1.ToLower();
 				zone.MpName = zoneBindings[zone.ZoneName].Item2.ToLower();
 
 				m_zones.Add(zone);
 			}
+			Alt.LogInfo("end of parse zones");
 		}
 
 		private void LoadPopCycles()

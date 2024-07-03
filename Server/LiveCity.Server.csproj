@@ -18,9 +18,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AltV.Net" Version="15.0.124-dev" />
-    <PackageReference Include="AltV.Net.Async" Version="15.0.124-dev" />
-    <PackageReference Include="AltV.Net.Interactions" Version="15.0.124-dev" />
+    <PackageReference Include="AltV.Net" Version="16.1.0-dev.8" />
+    <PackageReference Include="AltV.Net.Async" Version="16.1.0-dev.8" />
+    <PackageReference Include="AltV.Net.Interactions" Version="16.1.0-dev.8" />
     <PackageReference Include="MessagePack" Version="2.5.124" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
   </ItemGroup>
