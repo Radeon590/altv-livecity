@@ -30,7 +30,7 @@ namespace LiveCity.Server.LiveCity.Entities
 			vehicle.Vehicle.SetStreamSyncedMetaData("LiveCity:Driver", vehicle.Driver);
 
 			vehicle.Driver.SetStreamSyncedMetaData("LiveCity", true);
-			vehicle.Driver.SetStreamSyncedMetaData("LiveCity:Vehicle", vehicle.Vehicle);
+			vehicle.Driver.SetStreamSyncedMetaData("LiveCity:Vehicle", vehicle.Vehicle.Id);
 
 			return vehicle;
 		}

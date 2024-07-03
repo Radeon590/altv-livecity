@@ -2,12 +2,14 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text.Json;
+using System.Linq;
 using System.Threading.Tasks;
 using AltV.Net.Client;
 using AltV.Net.Client.Async;
 using AltV.Net.Client.Elements.Interfaces;
 using LiveCity.Shared;
+using Newtonsoft.Json;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace LiveCity.Client.Resource.LiveCity
 {
@@ -86,17 +88,32 @@ namespace LiveCity.Client.Resource.LiveCity
 				return;
 			}
 
-			if (ped.GetStreamSyncedMetaData("LiveCity:Vehicle", out IVehicle assignedVehicle))
+			IVehicle assignedVehicle = null;
+			if (ped.GetStreamSyncedMetaData("LiveCity:Vehicle", out uint assignedVehicleRemoteId))
 			{
-				try
-				{
-					await AltAsync.WaitFor(() => assignedVehicle.Spawned, 3000);
-				}
-				catch
-				{
-					Alt.EmitServer(EventNames.LiveCity.s_clientRequestsDestroy, ped);
-					return;
-				}
+				//Get vehicle
+				assignedVehicle = Alt.GetAllVehicles().FirstOrDefault(v => v.RemoteId == assignedVehicleRemoteId);
+			}
+			else
+			{
+				throw new Exception("Cant get assigned to ped vehicle");
+			}
+			//
+			try
+			{
+				Alt.LogInfo("handlePed try waitFor vehicle spawned");
+				bool a = assignedVehicle == null;
+				Alt.LogInfo($"{a}");
+				Alt.LogInfo("await");
+				await AltAsync.WaitFor(() => assignedVehicle.Spawned, 3000);
+				Alt.LogInfo("done handlePed try waitFor vehicle spawned");
+			}
+			catch
+			{
+				Alt.LogInfo("catch handlePed try waitFor vehicle spawned");
+				Alt.EmitServer(EventNames.LiveCity.s_clientRequestsDestroy, ped);
+				Alt.LogInfo("done catch handlePed try waitFor vehicle spawned");
+				return;
 			}
 
 			// Maybe despawned while waiting
