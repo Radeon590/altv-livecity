@@ -13,12 +13,14 @@ namespace LiveCity.Client.Resource.LiveCity
 {
 	internal class LiveCityService : ILiveCityService
 	{
-		public LiveCityService()
+		public LiveCityService(LoggingTestService loggingTestService)
 		{
 			Alt.OnNetOwnerChange += OnNetOwnerChange;
 
 			Alt.OnPlayerSpawn += () =>
 			{
+				Alt.LogInfo("LiveCityService");
+				loggingTestService.Log("live city service di test log");
 				Alt.EmitServer(EventNames.LiveCity.s_playerSpawned);
 			};
 		}
