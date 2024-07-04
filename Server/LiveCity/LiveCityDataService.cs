@@ -177,7 +177,7 @@ namespace LiveCity.Server.LiveCity
 
 		private void LoadStreetNodes()
 		{
-			StreetNodes = NavigationMeshProvider.LoadDataFromJsonFile<List<StreetNode>>("LiveCity\\ExtendedNodes.json");
+			StreetNodes = NavigationMeshProvider.LoadDataFromJsonFile<List<StreetNode>>(Path.Combine("LiveCity", "ExtendedNodes.json"));
 			Alt.Log("Successfully loaded dump file LiveCity\\ExtendedNodes.json.");
 			foreach (StreetNode streetNode in StreetNodes)
 			{
@@ -203,12 +203,12 @@ namespace LiveCity.Server.LiveCity
 
 		private void LoadPedComponentVariations()
 		{
-			PedComponentVariations = NavigationMeshProvider.LoadDataFromJsonFile<Dictionary<uint, Dictionary<int, Dictionary<int, int>>>>("LiveCity\\pedComponentVariations.json");
+			PedComponentVariations = NavigationMeshProvider.LoadDataFromJsonFile<Dictionary<uint, Dictionary<int, Dictionary<int, int>>>>(Path.Combine("LiveCity", "pedComponentVariations.json"));
 		}
 
 		private void LoadCarGenProhibitedModels()
 		{
-			List<VehicleEntry> allVehicles = NavigationMeshProvider.LoadDataFromJsonFile<List<VehicleEntry>>("LiveCity\\vehicles.json");
+			List<VehicleEntry> allVehicles = NavigationMeshProvider.LoadDataFromJsonFile<List<VehicleEntry>>(Path.Combine("LiveCity", "vehicles.json"));
 			foreach (VehicleEntry vehicle in allVehicles)
 			{
 				if (vehicle.Flags.Contains("FLAG_DONT_SPAWN_IN_CARGEN"))
@@ -234,7 +234,7 @@ namespace LiveCity.Server.LiveCity
 
 		private void LoadCarGenerators()
 		{
-			string carGensPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "data", "LiveCity\\CarGenerators.xml");
+			string carGensPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "data", "LiveCity", "CarGenerators.xml");
 			XElement items = XElement.Load(carGensPath);
 
 			Alt.Log("Successfully loaded dump file LiveCity\\CarGenerators.xml.");
@@ -287,7 +287,7 @@ namespace LiveCity.Server.LiveCity
 			Alt.LogInfo("ParseZones");
 			Dictionary<string, Tuple<string, string>> zoneBindings = new();
 			Alt.LogInfo("zoneBindPath after");
-			string zoneBindPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "data", "LiveCity\\ZoneBind.ymt");
+			string zoneBindPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "data", "LiveCity", "ZoneBind.ymt");
 			Alt.LogInfo("zoneBindPath before");
 			XElement items = XElement.Load(zoneBindPath);
 
@@ -303,7 +303,7 @@ namespace LiveCity.Server.LiveCity
 			}
 
 			List<string> fix = new();
-			string zonesFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "data", "LiveCity\\Zones.txt");
+			string zonesFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "data", "LiveCity", "Zones.txt");
 			string[] zoneStrings = File.ReadAllLines(zonesFilePath);
 			Alt.Log("Successfully loaded dump file LiveCity\\Zones.txt.");
 			foreach (string zoneString in zoneStrings)
@@ -324,7 +324,7 @@ namespace LiveCity.Server.LiveCity
 
 		private void LoadPopCycles()
 		{
-			string popCyclesPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "data", "LiveCity\\PopCycle");
+			string popCyclesPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "data", "LiveCity", "PopCycle");
 			string[] popCycleString = File.ReadAllLines(popCyclesPath);
 
 			Alt.Log("Successfully loaded dump file LiveCity\\PopCycle.");
@@ -426,7 +426,7 @@ namespace LiveCity.Server.LiveCity
 		private void LoadPopGroups()
 		{
 			string zoneBindPath =
-				Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "data", "LiveCity\\PopGroups.xml");
+				Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "data", "LiveCity", "PopGroups.xml");
 			XElement items = XElement.Load(zoneBindPath);
 
 			Alt.Log("Successfully loaded dump file LiveCity\\PopGroups.xml.");
@@ -465,12 +465,12 @@ namespace LiveCity.Server.LiveCity
 		private void LoadScenarioPoints()
 		{
 			List<ScenarioPoint> allScenarioPoints =
-				NavigationMeshProvider.LoadDataFromJsonFile<List<ScenarioPoint>>("LiveCity\\ScenarioPoints.json");
+				NavigationMeshProvider.LoadDataFromJsonFile<List<ScenarioPoint>>(Path.Combine("LiveCity", "ScenarioPoints.json"));
 			m_allowedScenarios =
-				NavigationMeshProvider.LoadDataFromJsonFile<List<string>>("LiveCity\\AllowedScenarios.json");
+				NavigationMeshProvider.LoadDataFromJsonFile<List<string>>(Path.Combine("LiveCity", "AllowedScenarios.json"));
 			Dictionary<string, List<string>> pedModelGroups =
 				NavigationMeshProvider.LoadDataFromJsonFile<Dictionary<string, List<string>>>(
-					"LiveCity\\PedModelGroup.json");
+					Path.Combine("LiveCity", "PedModelGroup.json"));
 			foreach (KeyValuePair<string, List<string>> s in pedModelGroups)
 			{
 				PedModelGroups.Add(s.Key.ToLower(), s.Value);
@@ -543,13 +543,13 @@ namespace LiveCity.Server.LiveCity
 
 		private void LoadCarData()
 		{
-			m_carModels = NavigationMeshProvider.LoadDataFromJsonFile<List<string>>("LiveCity\\CarModels.json");
-			List<string> colorlessCars = NavigationMeshProvider.LoadDataFromJsonFile<List<string>>("LiveCity\\ColorlessCars.json");
+			m_carModels = NavigationMeshProvider.LoadDataFromJsonFile<List<string>>(Path.Combine("LiveCity", "CarModels.json"));
+			List<string> colorlessCars = NavigationMeshProvider.LoadDataFromJsonFile<List<string>>(Path.Combine("LiveCity", "ColorlessCars.json"));
 			foreach (string car in colorlessCars)
 			{
 				m_colorlessCars.Add(Alt.Hash(car));
 			}
-			m_carColorsNum = NavigationMeshProvider.LoadDataFromJsonFile<List<int>>("LiveCity\\CarColorsNum.json");
+			m_carColorsNum = NavigationMeshProvider.LoadDataFromJsonFile<List<int>>(Path.Combine("LiveCity", "CarColorsNum.json"));
 		}
 
 		public Zone GetZoneByPosition(Vector3 position)
